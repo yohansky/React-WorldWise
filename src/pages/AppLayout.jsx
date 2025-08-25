@@ -1,10 +1,14 @@
-import AppNav from '../components/AppNav';
+// import AppNav from '../components/AppNav';
+import Map from '../components/Map';
+import Sidebar from '../components/Sidebar';
+
+import styles from './AppLayout.module.css';
 
 export const AppLayout = () => {
   return (
-    <div>
-      <AppNav />
-      <h1>App</h1>
+    <div className={styles.app}>
+      <Sidebar />
+      <Map />
     </div>
   );
 };
