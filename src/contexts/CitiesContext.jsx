@@ -7,6 +7,7 @@ const BASE_URL = 'http://localhost:9000';
 function CitiesPovider({ children }) {
   const [cities, setCities] = useState([]);
   const [isLoading, setisLoading] = useState(false);
+  const [currentCity, setCurentCity] = useState({});
 
   useEffect(() => {
     async function fetchCities() {
@@ -23,11 +24,25 @@ function CitiesPovider({ children }) {
     fetchCities();
   }, []);
 
+  async function getCity(id) {
+    try {
+      setisLoading(true);
+      const res = await axios.get(`${BASE_URL}/cities/${id}`);
+      setCurentCity(res.data);
+    } catch (error) {
+      alert(`There was an error loading data...`);
+    } finally {
+      setisLoading(false);
+    }
+  }
+
   return (
     <CitiesContext.Provider
       value={{
         cities,
         isLoading,
+        currentCity,
+        getCity,
       }}
     >
       {children}
