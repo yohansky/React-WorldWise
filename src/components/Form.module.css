@@ -27,6 +27,15 @@
   font-size: 2.8rem;
 }
 
+.twemoji {
+  position: absolute;
+  width: 20px; /* atur sesuai kebutuhan */
+  height: 20px;
+  right: 1rem;
+  top: 3.9rem;
+  font-size: 2.8rem;
+}
+
 .form.loading {
   opacity: 0.3;
 }

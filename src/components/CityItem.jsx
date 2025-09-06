@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import styles from './CityItem.module.css';
 import { useCities } from '../contexts/CitiesContext';
+import twemoji from 'twemoji';
 
 const formatDate = date =>
   new Intl.DateTimeFormat('en', {
@@ -22,7 +23,12 @@ export default function CityItem({ city }) {
           id === currentCity.id ? styles['cityItem--active'] : ''
         }`}
       >
-        <span className={styles.emoji}>{emoji}</span>
+        {/* <span className={styles.emoji}>{emoji}</span> */}
+        <span
+          dangerouslySetInnerHTML={{
+            __html: twemoji.parse(emoji, { className: styles.emoji }),
+          }}
+        />
         <h3 className={styles.name}>{cityName}</h3>
         <time className={styles.date}>{formatDate(date)}</time>
         <button className={styles.deleteBtn}>&times;</button>
