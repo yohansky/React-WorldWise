@@ -6,19 +6,19 @@ const BASE_URL = 'http://localhost:9000';
 
 function CitiesPovider({ children }) {
   const [cities, setCities] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
-  const [currentCity, setCurentCity] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentCity, setCurrentCity] = useState({});
 
   useEffect(() => {
     async function fetchCities() {
       try {
-        setisLoading(true);
+        setIsLoading(true);
         const res = await axios.get(`${BASE_URL}/cities`);
         setCities(res.data);
       } catch (error) {
         alert(`There was an error loading data...`);
       } finally {
-        setisLoading(false);
+        setIsLoading(false);
       }
     }
     fetchCities();
@@ -26,13 +26,47 @@ function CitiesPovider({ children }) {
 
   async function getCity(id) {
     try {
-      setisLoading(true);
+      setIsLoading(true);
       const res = await axios.get(`${BASE_URL}/cities/${id}`);
-      setCurentCity(res.data);
+      setCurrentCity(res.data);
     } catch (error) {
       alert(`There was an error loading data...`);
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
+    }
+  }
+
+  async function createCity(newCity) {
+    try {
+      setIsLoading(true);
+      const res = await axios.post(`${BASE_URL}/cities`, newCity, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = res.data;
+      console.log(data);
+
+      setCities(cities => [...cities, data]);
+    } catch (error) {
+      alert('There was an error creting city...');
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function deleteCity(id) {
+    try {
+      setIsLoading(true);
+      await axios.delete(`${BASE_URL}/cities/${id}`, {});
+
+      setCities(cities => cities.filter(city => city.id !== id));
+    } catch (error) {
+      alert('There was an error deleting city...');
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -43,6 +77,8 @@ function CitiesPovider({ children }) {
         isLoading,
         currentCity,
         getCity,
+        createCity,
+        deleteCity,
       }}
     >
       {children}
